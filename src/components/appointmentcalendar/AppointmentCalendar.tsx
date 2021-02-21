@@ -1,9 +1,10 @@
 
 import React from "react";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { IconButton, List, ListItem, ListItemSecondaryAction, ListItemText } from "@material-ui/core";
 import styled from "@emotion/styled";
 import { areIntervalsOverlapping, format, getDay } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
+import CloseIcon from "@material-ui/icons/Close";
 import { TimeSlots, AvailableSlots } from "../../common/types/timeslot";
 import { TimeSlot } from "../../redux/reducer/timeslot";
 import { RootState } from "../../redux/rootReducer";
@@ -77,6 +78,19 @@ export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
       })
     );
   };
+  
+  const removeSelectedSlot = () => {
+    dispatch(
+      TimeSlot.actions.setReservedSlots({
+        day: "",
+        timeSlot: {
+          start_time: "",
+          end_time: "",
+        },
+        company_id: null,
+      })
+    );
+  };
 
   return (
     <AppointmentCalendarStyled>
@@ -126,6 +140,15 @@ export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
                         start={new Date(timeslot.start_time)}
                         end={new Date(timeslot.end_time)}
                       />
+                      {companyID === company_id &&
+                        day === slot.dayOfWeek &&
+                        timeSlot.start_time === timeslot.start_time && (
+                          <ListItemSecondaryAction onClick={removeSelectedSlot}>
+                            <IconButton edge="end" aria-label="delete">
+                              <CloseIcon />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        )}
                     </ListItem>
                   );
                 })}
