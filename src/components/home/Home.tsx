@@ -1,15 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { TimeSlot } from "../../redux/reducer/timeslot";
-import { RootState } from "../../redux/rootReducer";
 import Grid from "@material-ui/core/Grid";
 import styled from "@emotion/styled";
+import { CircularProgress } from "@material-ui/core";
+import { TimeSlot } from "../../redux/reducer/timeslot";
+import { RootState } from "../../redux/rootReducer";
 import { CompanyDetails } from "../companydetails/CompanyDeatils";
 import { AppointmentCalendar } from "../appointmentcalendar/AppointmentCalendar";
 import { ReservedTimeSlot } from "../reservedtimeslot/ReservedTimeSlot";
 import { useTimeslotData } from "../../api/hooks";
 import { FetchStatus } from "../../common/types/fetch-status";
-import { CircularProgress } from "@material-ui/core";
 
 const Home: React.FC = () => {
 

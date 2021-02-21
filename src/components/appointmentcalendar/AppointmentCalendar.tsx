@@ -78,7 +78,7 @@ export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
       })
     );
   };
-  
+
   const removeSelectedSlot = () => {
     dispatch(
       TimeSlot.actions.setReservedSlots({
@@ -107,6 +107,7 @@ export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
                 {slot.slots.map((timeslot, index) => {
                   const intervalsOverlapping =
                     timeSlot.start_time !== "" &&
+                    timeSlot.end_time !== "" &&
                     areIntervalsOverlapping(
                       {
                         start: new Date(timeslot.start_time),

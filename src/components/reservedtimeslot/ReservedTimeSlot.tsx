@@ -21,7 +21,7 @@ export const ReservedTimeSlot: React.FC<ReservedTimeSlotProps> = ({
   } = useSelector((state: RootState) => state.timeslot);
   return (
     <ReservedTimeSlotStyled>
-      <Card className={"reservation-details"}>
+      <Card className="reservation-details">
         <CardContent>
           {company_id === companyID && (
             <>

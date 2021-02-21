@@ -24,6 +24,6 @@ export const useTimeslotData = (
       }
     };
     getData();
-  }, []);
+  }, [action, statusAction]);
   return innerState
 };
