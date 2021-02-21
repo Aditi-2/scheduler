@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAvailableTimeSlots } from "../../api/timeslot";
 import { TimeSlot } from "../../redux/reducer/timeslot";
 import { RootState } from "../../redux/rootReducer";
 import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
 import styled from "@emotion/styled";
+import { CompanyDetails } from "../companydetails/CompanyDeatils";
+import { AppointmentCalendar } from "../appointmentcalendar/AppointmentCalendar";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,8 @@ const Home: React.FC = () => {
           {allAvailableSlots.map((companySlots) => {
             return (
               <Grid item xs key={companySlots.name}>
-                <p>{companySlots.name} </p>
+                <CompanyDetails companyName={companySlots.name} />
+                <AppointmentCalendar time_slots={companySlots.time_slots} />
               </Grid>
             );
           })}

@@ -9,3 +9,11 @@ export interface CompaniesAvailableTimeSlots {
   type: string;
   time_slots: TimeSlots[];
 }
+export interface AvailableSlots {
+  dayOfWeek: string;
+  slots: TimeSlots[];
+}
+
+export interface AllAvailableTimeSlots {
+  data: CompaniesAvailableTimeSlots[];
+}
