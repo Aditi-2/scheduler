@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import styled from "@emotion/styled";
 import { CompanyDetails } from "../companydetails/CompanyDeatils";
 import { AppointmentCalendar } from "../appointmentcalendar/AppointmentCalendar";
+import { ReservedTimeSlot } from "../reservedtimeslot/ReservedTimeSlot";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,8 @@ const Home: React.FC = () => {
             return (
               <Grid item xs key={companySlots.name}>
                 <CompanyDetails companyName={companySlots.name} />
-                <AppointmentCalendar time_slots={companySlots.time_slots} />
+                <ReservedTimeSlot companyID={companySlots.id} />
+                <AppointmentCalendar time_slots={companySlots.time_slots} companyID={companySlots.id} />
               </Grid>
             );
           })}

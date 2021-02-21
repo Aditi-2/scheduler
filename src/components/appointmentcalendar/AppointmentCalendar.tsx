@@ -1,12 +1,15 @@
 import {
   List,
   ListItem,
-  ListItemText,
+  ListItemText
 } from "@material-ui/core";
 import styled from "@emotion/styled";
 import { TimeSlots, AvailableSlots } from "../../common/types/timeslot";
-import {format, getDay } from "date-fns";
+import { areIntervalsOverlapping, format, getDay } from "date-fns";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { TimeSlot } from "../../redux/reducer/timeslot";
+import { RootState } from "../../redux/rootReducer";
 
 const DAYS_MAP = {
   0: "Sunday",
@@ -53,12 +56,29 @@ const getAvailableSlots = (time_slots: TimeSlots[]): AvailableSlots[] => {
 
 interface AppointmentCalendarProps {
   time_slots: TimeSlots[];
+  companyID: number;
 }
 
 export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
-  time_slots
+  time_slots,
+  companyID,
 }) => {
+  const dispatch = useDispatch();
   const availableSlots = getAvailableSlots(time_slots);
+  const {
+    reservedSlot: { day, timeSlot, company_id },
+  } = useSelector((state: RootState) => state.timeslot);
+
+  const updateSelectedSlot = (dayOfWeek: string, timeSlots: TimeSlots) => {
+    dispatch(
+      TimeSlot.actions.setReservedSlots({
+        day: dayOfWeek,
+        timeSlot: timeSlots,
+        company_id: companyID,
+      })
+    );
+  };
+  
   return (
     <AppointmentCalendarStyled>
       <div className={"slot-list"}>
@@ -72,10 +92,35 @@ export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
                   disableTypography
                 />
                 {slot.slots.map((timeslot, index) => {
+                  const intervalsOverlapping =
+                    timeSlot.start_time !== "" &&
+                    areIntervalsOverlapping(
+                      {
+                        start: new Date(timeslot.start_time),
+                        end: new Date(timeslot.end_time),
+                      },
+                      {
+                        start: new Date(timeSlot.start_time),
+                        end: new Date(timeSlot.end_time),
+                      }
+                    );
                   return (
                     <ListItem
                       className="time-slot"
                       key={`timeslot-${index}`}
+                      disabled={
+                        companyID !== company_id &&
+                        day === slot.dayOfWeek &&
+                        intervalsOverlapping
+                      }
+                      selected={
+                        companyID === company_id &&
+                        day === slot.dayOfWeek &&
+                        timeSlot.start_time === timeslot.start_time
+                      }
+                      onClick={() =>
+                        updateSelectedSlot(slot.dayOfWeek, timeslot)
+                      }
                     >
                       <div className="time-slot-inner">
                         <span>

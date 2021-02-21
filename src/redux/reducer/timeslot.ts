@@ -1,15 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FetchStatus } from "../../common/types/fetch-status";
-import { CompaniesAvailableTimeSlots } from "../../common/types/timeslot";
+import { CompaniesAvailableTimeSlots, ReservedSlot } from "../../common/types/timeslot";
 
 interface TimeslotState {
   fetchStatus: FetchStatus;
   allAvailableSlots: CompaniesAvailableTimeSlots[];
+  reservedSlot: ReservedSlot;
 }
 
 const initialState: TimeslotState = {
   fetchStatus: FetchStatus.none,
-  allAvailableSlots: []
+  allAvailableSlots: [],
+  reservedSlot: {
+    day: "",
+    timeSlot: {
+      start_time: "",
+      end_time: "",
+    },
+    company_id: null
+  }
 };
 
 export const TimeSlot = createSlice({
@@ -22,6 +31,15 @@ export const TimeSlot = createSlice({
     },
     setAvailableSlots: (state: TimeslotState, action: PayloadAction<any>) => {
       state.allAvailableSlots = action.payload;
+      return state;
+    },
+    setReservedSlots: (state: TimeslotState, action: PayloadAction<any>) => {
+      state.reservedSlot = {
+        ...state.reservedSlot,
+        day: action.payload.day,
+        timeSlot: action.payload.timeSlot,
+        company_id: action.payload.company_id
+      };
       return state;
     }
   },
