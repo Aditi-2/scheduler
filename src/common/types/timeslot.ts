@@ -14,9 +14,6 @@ export interface AvailableSlots {
   slots: TimeSlots[];
 }
 
-export interface AllAvailableTimeSlots {
-  data: CompaniesAvailableTimeSlots[];
-}
 export interface ReservedSlot {
   company_id: number | null;
   day: string;

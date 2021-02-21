@@ -29,11 +29,11 @@ export const TimeSlot = createSlice({
       state.fetchStatus = action.payload;
       return state;
     },
-    setAvailableSlots: (state: TimeslotState, action: PayloadAction<any>) => {
+    setAvailableSlots: (state: TimeslotState, action: PayloadAction<CompaniesAvailableTimeSlots[]>) => {
       state.allAvailableSlots = action.payload;
       return state;
     },
-    setReservedSlots: (state: TimeslotState, action: PayloadAction<any>) => {
+    setReservedSlots: (state: TimeslotState, action: PayloadAction<ReservedSlot>) => {
       state.reservedSlot = {
         ...state.reservedSlot,
         day: action.payload.day,
