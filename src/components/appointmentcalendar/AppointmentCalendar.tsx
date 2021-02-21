@@ -1,15 +1,13 @@
-import {
-  List,
-  ListItem,
-  ListItemText
-} from "@material-ui/core";
-import styled from "@emotion/styled";
-import { TimeSlots, AvailableSlots } from "../../common/types/timeslot";
-import { areIntervalsOverlapping, format, getDay } from "date-fns";
+
 import React from "react";
+import { List, ListItem, ListItemText } from "@material-ui/core";
+import styled from "@emotion/styled";
+import { areIntervalsOverlapping, format, getDay } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
+import { TimeSlots, AvailableSlots } from "../../common/types/timeslot";
 import { TimeSlot } from "../../redux/reducer/timeslot";
 import { RootState } from "../../redux/rootReducer";
+import { TimeRange } from "../timerange/timerange";
 
 const DAYS_MAP = {
   0: "Sunday",
@@ -20,6 +18,7 @@ const DAYS_MAP = {
   5: "Friday",
   6: "Saturday",
 };
+
 const getAvailableSlots = (time_slots: TimeSlots[]): AvailableSlots[] => {
   let availableDates: string[] = [];
   const availableSlots: AvailableSlots[] = [];
@@ -78,10 +77,10 @@ export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
       })
     );
   };
-  
+
   return (
     <AppointmentCalendarStyled>
-      <div className={"slot-list"}>
+      <div className="slot-list">
         <List>
           {availableSlots.map((slot, index) => {
             return (
@@ -122,13 +121,11 @@ export const AppointmentCalendar: React.FC<AppointmentCalendarProps> = ({
                         updateSelectedSlot(slot.dayOfWeek, timeslot)
                       }
                     >
-                      <div className="time-slot-inner">
-                        <span>
-                          {format(new Date(timeslot.start_time), "HH:mm")}
-                          {"-"}
-                          {format(new Date(timeslot.end_time), "HH:mm")}
-                        </span>
-                      </div>
+                      <TimeRange
+                        className="time-slot-inner"
+                        start={new Date(timeslot.start_time)}
+                        end={new Date(timeslot.end_time)}
+                      />
                     </ListItem>
                   );
                 })}

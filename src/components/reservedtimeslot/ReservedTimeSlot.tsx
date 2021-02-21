@@ -2,19 +2,22 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import styled from "@emotion/styled";
+import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { format } from "date-fns";
+import { TimeRange } from "../timerange/timerange";
 
 interface ReservedTimeSlotProps {
   companyID: number;
+  dateFormat?: string;
 }
 
 export const ReservedTimeSlot: React.FC<ReservedTimeSlotProps> = ({
   companyID,
+  dateFormat = "PPPP"
 }) => {
   const {
-    reservedSlot: { day, timeSlot, company_id },
+    reservedSlot: { timeSlot, company_id },
   } = useSelector((state: RootState) => state.timeslot);
   return (
     <ReservedTimeSlotStyled>
@@ -23,14 +26,10 @@ export const ReservedTimeSlot: React.FC<ReservedTimeSlotProps> = ({
           {company_id === companyID && (
             <>
               <Typography variant="subtitle1" className="reserved-day">
-                {format(new Date(timeSlot.start_time), "PPPP")}
+                {format(new Date(timeSlot.start_time), dateFormat)}
               </Typography>
               {timeSlot.start_time !== "" && timeSlot.end_time !== "" && (
-                <Typography variant="subtitle1" className="title">
-                  {format(new Date(timeSlot.start_time), "HH:mm")}
-                  {"-"}
-                  {format(new Date(timeSlot.end_time), "HH:mm")}
-                </Typography>
+                <TimeRange start={new Date(timeSlot.start_time)} end={new Date(timeSlot.end_time)}/>
               )}
             </>
           )}
